@@ -1,0 +1,26 @@
+{
+  "name": "@hastara/db",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "exports": {
+    ".": "./client.ts",
+    "./schema": "./schema.ts"
+  },
+  "scripts": {
+    "typecheck": "tsc --noEmit",
+    "lint": "eslint . --ext .ts,.tsx",
+    "generate": "drizzle-kit generate",
+    "migrate:dev": "drizzle-kit push",
+    "migrate:push": "drizzle-kit push",
+    "studio": "drizzle-kit studio"
+  },
+  "dependencies": {
+    "drizzle-orm": "^0.30.0",
+    "postgres": "^3.4.0"
+  },
+  "devDependencies": {
+    "drizzle-kit": "^0.21.0",
+    "typescript": "^5.4.0"
+  }
+}

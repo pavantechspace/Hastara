@@ -1,0 +1,9 @@
+{
+  "extends": "../config/typescript/tsconfig.react.json",
+  "compilerOptions": {
+    "rootDir": ".",
+    "outDir": "./dist"
+  },
+  "include": ["./**/*.ts", "./**/*.tsx"],
+  "exclude": ["node_modules", "dist", "./**/*.native.tsx"]
+}

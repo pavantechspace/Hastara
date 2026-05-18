@@ -1,0 +1,6 @@
+[shell_environment_policy]
+inherit = "core"
+
+[shell_environment_policy.set]
+HASTARA_PROJECT = "hastara"
+NODE_ENV = "development"

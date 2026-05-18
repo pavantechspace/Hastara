@@ -1,0 +1,149 @@
+# Hastara — Cursor Rules
+# Drop this file in the project root. Cursor reads it on every chat and completion.
+# Full technical context is in CLAUDE.md — this file is the rules-focused summary.
+
+## IDENTITY
+You are building Hastara — a multi-platform AI palmistry + numerology + astrology app.
+- Mobile: React Native + Expo SDK 51 (apps/mobile)
+- Web: Next.js 15 App Router (apps/web)
+- Backend: Supabase Edge Functions — Deno (services/)
+- Shared: Turborepo monorepo (packages/core, packages/api, packages/ui, packages/db)
+
+## ABSOLUTE RULES — never break these
+
+1. TypeScript strict mode. Zero `any`. Use `unknown` + type guards.
+2. No JavaScript files. Every file is `.ts` or `.tsx`.
+3. No AI API calls from the client. All AI goes through Edge Functions.
+4. No hardcoded env vars. Always `process.env.VARIABLE_NAME`. See CLAUDE.md §7.
+5. Subscription tier is enforced server-side in tRPC middleware, not just client.
+6. Row-Level Security enforces per-user data isolation at the DB layer — never fetch without a userId where clause.
+7. Cache all AI outputs in Redis keyed by reading_id before returning.
+8. No `console.log` — use structured logger.
+9. No `StyleSheet.create()` in mobile — use NativeWind className.
+10. Use `pnpm` — not npm, not yarn.
+
+## TECH STACK (exact versions — do not guess)
+- expo: ~51.0.0
+- next: 15.0.x
+- typescript: 5.4.x (strict)
+- @trpc/server + @trpc/client: 11.x (NOT 10.x)
+- drizzle-orm: 0.30.x
+- nativewind: 4.x
+- zustand: 4.5.x
+- @tanstack/react-query: 5.x
+- @clerk/nextjs + @clerk/expo: latest
+- @supabase/supabase-js: 2.x
+
+## PATTERNS
+
+### tRPC procedure (always use this shape)
+```typescript
+export const exampleRouter = router({
+  list: protectedProcedure
+    .input(z.object({ cursor: z.string().uuid().optional(), limit: z.number().min(1).max(50).default(20) }))
+    .query(async ({ ctx, input }) => {
+      // ctx.user always available. ctx.db is Drizzle. ctx.redis is Upstash.
+    }),
+
+  create: protectedProcedure
+    .input(z.object({ /* validated input */ }))
+    .mutation(async ({ ctx, input }) => {
+      // Validate business rules first, then write to DB
+    }),
+});
+```
+
+### React Native screen (always use this shape)
+```typescript
+export default function ExampleScreen() {
+  const { data, isLoading, isError, error, refetch } = useQuery(api.example.list.queryOptions());
+
+  if (isLoading) return <LoadingSpinner />;
+  if (isError) return <ErrorBanner message={error.message} onRetry={refetch} />;
+
+  return (
+    <ScrollView className="flex-1 bg-background" contentContainerStyle={{ paddingBottom: 100 }}>
+      <View className="px-5 pt-12">
+        {/* content */}
+      </View>
+    </ScrollView>
+  );
+}
+```
+
+### Edge Function (always use this shape)
+```typescript
+Deno.serve(async (req) => {
+  const jwt = req.headers.get('Authorization')?.replace('Bearer ', '');
+  if (!jwt) return new Response('Unauthorized', { status: 401 });
+  const { data: { user } } = await supabase.auth.getUser(jwt);
+  if (!user) return new Response('Unauthorized', { status: 401 });
+  // business logic
+});
+```
+
+## NAMING CONVENTIONS
+- Components: PascalCase.tsx (ReadingResultCard.tsx)
+- Utilities/hooks: camelCase.ts (useReadingList.ts)
+- Stores: camelCase.store.ts (auth.store.ts)
+- Routers: camelCase.router.ts (reading.router.ts)
+- Prompts: camelCase.prompt.ts (synthesis.prompt.ts)
+- Directories: kebab-case/
+- Platform splits: Component.native.tsx + Component.web.tsx
+- tRPC procedures: router.verb (reading.create, profile.update)
+- No snake_case in TypeScript code — ever.
+
+## DESIGN SYSTEM
+- Primary: #0D3B2E (forest green)
+- Gold: #B8935A (warm gold)
+- Cream: #F8F5EE (background)
+- Charcoal: #1A1A1A (text)
+- Font display: Cormorant Garamond
+- Font body: DM Sans
+- Use NativeWind className on mobile, Tailwind className on web
+- Cards: rounded-card (16px), 0.5px gold border, cream background
+
+## SUBSCRIPTION GATING
+```
+free tier:    standard + love reading (3/month), daily oracle, basic numerology
+mystic tier:  + career/health modes, unlimited readings, birth chart, Chaldean numerology
+oracle tier:  + spiritual mode, rare markings, voice reading, infographic export, triple convergence
+sage tier:    + crystal ball mode, future-self images, past-life vision, soul mandala, mantra/mudra
+```
+
+Use `useSubscriptionStore(s => s.canAccessFeature('feature_name'))` to gate UI.
+Use `requireTier('oracle')` middleware to gate tRPC procedures.
+
+## FILE LOCATIONS (key files to know)
+- All domain types: packages/core/types/index.ts
+- All AI prompts: packages/core/prompts/*.prompt.ts
+- tRPC app router: packages/api/index.ts
+- Drizzle schema: packages/db/schema.ts
+- Tailwind config: packages/config/tailwind/index.js
+- Mobile store files: apps/mobile/store/*.store.ts
+- Feature gating: packages/core/subscription/features.ts
+
+## WHAT TO AVOID
+- Never use `any` — use proper types from packages/core/types/
+- Never inline subscription checks in UI — use canAccessFeature()
+- Never call OpenAI/Anthropic from client — always Edge Function
+- Never use expo-router's Link for tab navigation — use Tabs
+- Never put shared logic in apps/ — it belongs in packages/
+- Never generate reading without checking cache first (Redis key: `reading:{id}`)
+- Never use import aliases like ../../.. — configure path aliases in tsconfig
+
+## ENV VARS — key names (full list in CLAUDE.md §7 and .env.example)
+CLERK: NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY, CLERK_SECRET_KEY, CLERK_WEBHOOK_SECRET
+SUPABASE: NEXT_PUBLIC_SUPABASE_URL, NEXT_PUBLIC_SUPABASE_ANON_KEY, SUPABASE_SERVICE_ROLE_KEY
+AI: OPENAI_API_KEY, ANTHROPIC_API_KEY, BFL_API_KEY, ELEVENLABS_API_KEY
+PAYMENTS: EXPO_PUBLIC_REVENUECAT_APPLE_KEY, EXPO_PUBLIC_REVENUECAT_ANDROID_KEY, STRIPE_SECRET_KEY
+CACHE: UPSTASH_REDIS_REST_URL, UPSTASH_REDIS_REST_TOKEN
+MOBILE prefix: EXPO_PUBLIC_ for client-exposed vars
+
+## READ ALSO
+See CLAUDE.md for:
+- Complete TypeScript interfaces for all domain types (§5)
+- All 9 AI prompts in full (§12)
+- All 30 tRPC procedure signatures (§9)
+- Complete .env.example with all 30+ variables (§7)
+- Full folder structure (§3)

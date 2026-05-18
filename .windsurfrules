@@ -1,0 +1,82 @@
+# Hastara — Windsurf Rules
+# Same context as .cursorrules. Windsurf reads this file automatically.
+# Full context is in CLAUDE.md — read it when you need type definitions, prompts, or env vars.
+
+## PROJECT
+Hastara is a multi-platform AI palmistry + numerology + astrology app.
+Turborepo monorepo: apps/mobile (Expo 51), apps/web (Next.js 15), services/ (Supabase Edge Functions).
+Shared logic lives exclusively in packages/ — never duplicate in apps/.
+
+## HARD RULES
+- TypeScript strict, no `any`, no `.js` files
+- All AI calls server-side only (Edge Functions) — never in client bundle
+- pnpm only (not npm, not yarn)
+- NativeWind className on mobile — no StyleSheet.create()
+- Subscription gating enforced on the server (tRPC middleware), not just client UI
+- All AI outputs cached in Redis by reading_id before returning to client
+- RLS handles per-user isolation at DB level — always filter by userId in queries too
+
+## STACK (exact versions)
+expo ~51.0.0 · next 15.0.x · typescript 5.4.x · @trpc/server 11.x · drizzle-orm 0.30.x
+nativewind 4.x · zustand 4.5.x · @tanstack/react-query 5.x · @clerk/nextjs latest
+@supabase/supabase-js 2.x · react-native-purchases 7.x (RevenueCat) · stripe 16.x
+
+## KEY PATTERNS
+
+### tRPC procedure
+```ts
+export const xRouter = router({
+  create: protectedProcedure
+    .input(z.object({ /* zod schema */ }))
+    .mutation(async ({ ctx, input }) => {
+      // ctx.user: User, ctx.db: Drizzle, ctx.redis: Upstash
+    }),
+  list: protectedProcedure
+    .input(z.object({ cursor: z.string().optional(), limit: z.number().default(20) }))
+    .query(async ({ ctx, input }) => { /* paginated query */ }),
+});
+```
+
+### Mobile screen
+```tsx
+export default function Screen() {
+  const { data, isLoading, isError } = useQuery(api.x.list.queryOptions());
+  if (isLoading) return <LoadingSpinner />;
+  if (isError) return <ErrorBanner />;
+  return <ScrollView className="flex-1 bg-background"><View className="px-5 pt-12">{/*...*/}</View></ScrollView>;
+}
+```
+
+## TYPES — import from packages/core/types/index.ts
+Key types: User, Reading, DailyOracle, BirthChart, CompatibilityReading, Subscription,
+VisionJSON, NumerologyProfile, TarotCard, MoonPhase, SubscriptionTier, ReadingMode,
+Feature, BadgeId, AuthStore, SubscriptionStore, ReadingStore
+
+## SUBSCRIPTION TIERS
+free → standard+love readings (3/mo), oracle, basic numerology
+mystic → +career/health, unlimited, birth chart, Chaldean
+oracle → +spiritual, rare markings, voice, infographic, triple convergence
+sage → +crystal ball, future-self, past-life, mandala, mantra/mudra
+
+Gate UI: `useSubscriptionStore(s => s.canAccessFeature('feature_name'))`
+Gate API: `.use(requireTier('oracle'))` on tRPC procedure
+
+## NAMING
+PascalCase: components | camelCase: utils, hooks, stores | kebab-case: directories
+*.store.ts | *.router.ts | *.prompt.ts | *.schema.ts
+No snake_case in TypeScript — ever.
+
+## DESIGN TOKENS
+primary #0D3B2E · gold #B8935A · cream #F8F5EE · charcoal #1A1A1A
+font-display: Cormorant Garamond · font-body: DM Sans
+Cards: rounded-card (16px) · 0.5px gold border · cream bg
+
+## KEY FILES
+packages/core/types/index.ts      — all domain types
+packages/core/prompts/*.ts        — all 9 AI prompts
+packages/api/index.ts             — merged tRPC AppRouter
+packages/db/schema.ts             — Drizzle schema
+apps/mobile/store/*.store.ts      — Zustand stores
+
+## FULL CONTEXT → CLAUDE.md
+§3 folder structure · §5 all TypeScript types · §7 env vars · §9 all tRPC schemas · §12 all AI prompts

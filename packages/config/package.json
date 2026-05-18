@@ -1,0 +1,12 @@
+{
+  "name": "@hastara/config",
+  "version": "0.0.0",
+  "private": true,
+  "exports": {
+    "./typescript/base": "./typescript/tsconfig.base.json",
+    "./typescript/react": "./typescript/tsconfig.react.json",
+    "./eslint": "./eslint/index.js",
+    "./prettier": "./prettier/index.js",
+    "./tailwind": "./tailwind/index.js"
+  }
+}

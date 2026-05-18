@@ -1,0 +1,522 @@
+
+<h2 class="sr-only">Hastara design system — complete color palette, typography, document anatomy, and implementation code extracted from SRS-HASTARA-001 and TDD-HASTARA-001</h2>
+
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+.ds{padding:1rem 0}
+.sec{margin-bottom:2rem}
+.lbl{font-size:11px;font-weight:500;color:var(--color-text-tertiary);letter-spacing:.07em;text-transform:uppercase;margin-bottom:12px;display:flex;align-items:center;gap:8px}
+.lbl-line{flex:1;height:0.5px;background:var(--color-border-tertiary)}
+.g3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:9px}
+.g2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}
+.swatch{border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-lg);overflow:hidden;cursor:pointer;transition:opacity .15s}
+.swatch:hover{opacity:.88}
+.sw-col{height:68px}
+.sw-body{padding:9px 11px;background:var(--color-background-primary)}
+.sw-name{font-size:13px;font-weight:500;color:var(--color-text-primary);margin-bottom:2px}
+.sw-hex{font-size:11px;font-family:var(--font-mono);color:var(--color-text-secondary)}
+.sw-use{font-size:10px;color:var(--color-text-tertiary);margin-top:3px;line-height:1.4}
+.st-card{border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-lg);overflow:hidden}
+.st-top{padding:10px 13px;display:flex;align-items:center;justify-content:space-between;cursor:pointer}
+.st-top:hover{opacity:.88}
+.st-bot{padding:9px 13px;display:flex;align-items:center;justify-content:space-between;cursor:pointer}
+.st-bot:hover{opacity:.88}
+.st-label{font-size:13px;font-weight:500}
+.st-hex{font-size:11px;font-family:var(--font-mono);opacity:.75}
+.divider{border:none;border-top:0.5px solid var(--color-border-tertiary);margin:1.5rem 0}
+.dp{background:#F8F5EE;border:0.5px solid #D4C9B0;border-radius:var(--border-radius-lg);overflow:hidden}
+.dp-inner{padding:18px 22px}
+.dp-h1{font-size:21px;font-weight:700;color:#0D3B2E;font-family:Georgia,serif;border-bottom:3px solid #B8935A;padding-bottom:9px;margin-bottom:12px}
+.dp-h3{font-size:14px;font-weight:600;color:#B8935A;font-family:Georgia,serif;margin-bottom:9px;margin-top:14px}
+.dp-body{font-size:12px;color:#1A1A1A;line-height:1.65;margin-bottom:12px}
+.dp-table{width:100%;border-collapse:collapse;margin-bottom:12px}
+.dp-table th{background:#0D3B2E;color:#FFFFFF;padding:7px 10px;text-align:left;font-size:11px;font-weight:500}
+.dp-table td{padding:6px 10px;border:0.5px solid #D4C9B0;color:#1A1A1A;font-size:11px}
+.dp-table tr:nth-child(odd) td{background:#F4F0E5}
+.dp-table tr:nth-child(even) td{background:#F8F5EE}
+.dp-box{background:#F5EBD8;border-left:3px solid #B8935A;border-radius:0 6px 6px 0;padding:9px 12px;margin-bottom:10px}
+.dp-box-t{font-size:10px;font-weight:600;color:#0D3B2E;letter-spacing:.05em;text-transform:uppercase;margin-bottom:3px}
+.dp-box-b{font-size:11px;color:#1A1A1A;line-height:1.55}
+.tag{display:inline-block;font-size:10px;padding:2px 7px;border-radius:20px;font-weight:500;margin:0 3px 4px 0}
+.tag-g{background:#E8F0E8;color:#4A7C59}
+.tag-a{background:#F5EBD8;color:#854F0B}
+.tag-b{background:#E5EEF5;color:#185FA5}
+.tag-p{background:#EEEDFE;color:#534AB7}
+.ty-card{border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-lg);padding:14px 16px;background:var(--color-background-primary);margin-bottom:8px}
+.ty-label{font-size:10px;font-weight:500;color:var(--color-text-tertiary);letter-spacing:.06em;text-transform:uppercase;margin-bottom:8px}
+.ty-meta{font-size:10px;color:var(--color-text-tertiary);margin-top:7px;line-height:1.5}
+.tabs{display:flex;gap:5px;margin-bottom:10px}
+.tab{font-size:12px;padding:5px 12px;border-radius:var(--border-radius-md);border:0.5px solid var(--color-border-tertiary);background:var(--color-background-primary);color:var(--color-text-secondary);cursor:pointer}
+.tab.act{background:var(--color-background-secondary);color:var(--color-text-primary);font-weight:500}
+.code{background:var(--color-background-secondary);border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-lg);padding:14px 16px;font-size:11px;font-family:var(--font-mono);line-height:1.8;overflow-x:auto;white-space:pre}
+.pane{display:none}
+.pane.act{display:block}
+.cmt{color:var(--color-text-tertiary)}
+.ok{color:#4A7C59!important}
+</style>
+
+<div class="ds">
+
+<div class="sec">
+<div class="lbl">Core brand palette <div class="lbl-line"></div> <span style="font-size:10px;font-weight:400">tap any swatch to copy hex</span></div>
+<div class="g3">
+
+<div class="swatch" onclick="cp('#0D3B2E',this)">
+  <div class="sw-col" style="background:#0D3B2E"></div>
+  <div class="sw-body">
+    <div class="sw-name">Forest Green</div>
+    <div class="sw-hex">#0D3B2E</div>
+    <div class="sw-use">H1 · H2 · table headers · primary buttons · nav active</div>
+  </div>
+</div>
+
+<div class="swatch" onclick="cp('#B8935A',this)">
+  <div class="sw-col" style="background:#B8935A"></div>
+  <div class="sw-body">
+    <div class="sw-name">Warm Gold</div>
+    <div class="sw-hex">#B8935A</div>
+    <div class="sw-use">H3 · H1 underline · ✦ glyph · callout borders · icons</div>
+  </div>
+</div>
+
+<div class="swatch" onclick="cp('#F8F5EE',this)">
+  <div class="sw-col" style="background:#F8F5EE;border-bottom:0.5px solid #D4C9B0"></div>
+  <div class="sw-body">
+    <div class="sw-name">Cream</div>
+    <div class="sw-hex">#F8F5EE</div>
+    <div class="sw-use">App background · card surfaces · even table rows</div>
+  </div>
+</div>
+
+<div class="swatch" onclick="cp('#F4F0E5',this)">
+  <div class="sw-col" style="background:#F4F0E5;border-bottom:0.5px solid #D4C9B0"></div>
+  <div class="sw-body">
+    <div class="sw-name">Cream Alt</div>
+    <div class="sw-hex">#F4F0E5</div>
+    <div class="sw-use">Odd table rows · secondary surfaces · section bg</div>
+  </div>
+</div>
+
+<div class="swatch" onclick="cp('#1A1A1A',this)">
+  <div class="sw-col" style="background:#1A1A1A"></div>
+  <div class="sw-body">
+    <div class="sw-name">Charcoal</div>
+    <div class="sw-hex">#1A1A1A</div>
+    <div class="sw-use">All body text · table cell text · primary content</div>
+  </div>
+</div>
+
+<div class="swatch" onclick="cp('#666666',this)">
+  <div class="sw-col" style="background:#666666"></div>
+  <div class="sw-body">
+    <div class="sw-name">Muted Gray</div>
+    <div class="sw-hex">#666666</div>
+    <div class="sw-use">Page headers/footers · captions · secondary labels</div>
+  </div>
+</div>
+
+<div class="swatch" onclick="cp('#D4C9B0',this)">
+  <div class="sw-col" style="background:#D4C9B0"></div>
+  <div class="sw-body">
+    <div class="sw-name">Gold Border</div>
+    <div class="sw-hex">#D4C9B0</div>
+    <div class="sw-use">Table cell borders · card borders · dividers</div>
+  </div>
+</div>
+
+<div class="swatch" onclick="cp('#0F6E56',this)">
+  <div class="sw-col" style="background:#0F6E56"></div>
+  <div class="sw-body">
+    <div class="sw-name">Medium Green</div>
+    <div class="sw-hex">#0F6E56</div>
+    <div class="sw-use">Section card borders · diagram emphasis borders</div>
+  </div>
+</div>
+
+<div class="swatch" onclick="cp('#7B5EA7',this)">
+  <div class="sw-col" style="background:#7B5EA7"></div>
+  <div class="sw-body">
+    <div class="sw-name">Sage Purple</div>
+    <div class="sw-hex">#7B5EA7</div>
+    <div class="sw-use">Sage tier subscription · exclusive premium badge</div>
+  </div>
+</div>
+
+</div>
+</div>
+
+<div class="sec">
+<div class="lbl">Semantic status — text color paired with background tint <div class="lbl-line"></div></div>
+<div class="g2">
+
+<div class="st-card">
+  <div class="st-top" style="background:#4A7C59" onclick="cp('#4A7C59',this)">
+    <span class="st-label" style="color:#fff">Success text</span>
+    <span class="st-hex" style="color:#fff">#4A7C59</span>
+  </div>
+  <div class="st-bot" style="background:#E8F0E8" onclick="cp('#E8F0E8',this)">
+    <span class="st-label" style="color:#4A7C59;font-size:12px">Success background tint</span>
+    <span class="st-hex" style="color:#4A7C59">#E8F0E8</span>
+  </div>
+</div>
+
+<div class="st-card">
+  <div class="st-top" style="background:#B8935A" onclick="cp('#B8935A',this)">
+    <span class="st-label" style="color:#fff">Warning / highlight text</span>
+    <span class="st-hex" style="color:#fff">#B8935A</span>
+  </div>
+  <div class="st-bot" style="background:#F5EBD8" onclick="cp('#F5EBD8',this)">
+    <span class="st-label" style="color:#854F0B;font-size:12px">Gold callout background</span>
+    <span class="st-hex" style="color:#854F0B">#F5EBD8</span>
+  </div>
+</div>
+
+<div class="st-card">
+  <div class="st-top" style="background:#B85450" onclick="cp('#B85450',this)">
+    <span class="st-label" style="color:#fff">Error / danger text</span>
+    <span class="st-hex" style="color:#fff">#B85450</span>
+  </div>
+  <div class="st-bot" style="background:#F5E5E5" onclick="cp('#F5E5E5',this)">
+    <span class="st-label" style="color:#B85450;font-size:12px">Error background tint</span>
+    <span class="st-hex" style="color:#B85450">#F5E5E5</span>
+  </div>
+</div>
+
+<div class="st-card">
+  <div class="st-top" style="background:#185FA5" onclick="cp('#185FA5',this)">
+    <span class="st-label" style="color:#fff">Info text</span>
+    <span class="st-hex" style="color:#fff">#185FA5</span>
+  </div>
+  <div class="st-bot" style="background:#E5EEF5" onclick="cp('#E5EEF5',this)">
+    <span class="st-label" style="color:#185FA5;font-size:12px">Info background tint</span>
+    <span class="st-hex" style="color:#185FA5">#E5EEF5</span>
+  </div>
+</div>
+
+</div>
+</div>
+
+<div class="sec">
+<div class="lbl">Document anatomy — how every color is used in practice <div class="lbl-line"></div></div>
+<div style="margin-bottom:8px">
+  <span class="tag tag-g">H1/H2 → Forest Green</span>
+  <span class="tag tag-a">H3 → Warm Gold</span>
+  <span class="tag tag-b">Table header → Green bg + White text</span>
+  <span class="tag tag-p">Table rows → Cream / Cream Alt alternating</span>
+</div>
+<div class="dp">
+  <div class="dp-inner">
+
+    <div class="dp-h1">1. System Architecture</div>
+
+    <p class="dp-body">Hastara delivers institutional-grade AI palm readings across iOS, Android, and web — unified through a Turborepo monorepo and a single PostgreSQL backend. Every reading synthesises three palmistry traditions using GPT-5 Vision and Claude Opus 4.7.</p>
+
+    <div class="dp-h3">1.1 Technology Stack</div>
+
+    <table class="dp-table">
+      <thead>
+        <tr><th>Layer</th><th>Technology</th><th>Version</th><th>Purpose</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Mobile</td><td>React Native + Expo</td><td>SDK 51</td><td>iOS + Android</td></tr>
+        <tr><td>Web</td><td>Next.js App Router</td><td>15.0.x</td><td>SEO + checkout</td></tr>
+        <tr><td>API</td><td>tRPC v11</td><td>11.x</td><td>Type-safe RPC</td></tr>
+        <tr><td>Database</td><td>PostgreSQL (Supabase)</td><td>16</td><td>Multi-region</td></tr>
+      </tbody>
+    </table>
+
+    <div class="dp-box">
+      <div class="dp-box-t">Important — Gold callout box</div>
+      <div class="dp-box-b">All AI calls are server-side only. No API keys in client bundles. Subscription tier is enforced at database level via Row-Level Security policies.</div>
+    </div>
+
+    <p class="dp-body" style="color:#666666;font-size:10px;font-style:italic">Footnote / page header / footer text uses Muted Gray #666666 · Body text uses Charcoal #1A1A1A · All table and card borders use Gold Border #D4C9B0</p>
+
+  </div>
+</div>
+</div>
+
+<div class="sec">
+<div class="lbl">Typography system <div class="lbl-line"></div></div>
+
+<div class="ty-card">
+  <div class="ty-label">Display — Cormorant Garamond (editorial)</div>
+  <div style="font-size:26px;color:#0D3B2E;font-family:Georgia,serif;font-weight:700">Hastara</div>
+  <div style="font-size:16px;color:#B8935A;font-family:Georgia,serif;font-style:italic;margin-top:3px">Insights · Strengths · Path</div>
+  <div class="ty-meta">Used for: app icon wordmark, cover titles, H1 and H2 section headings. Load via expo-font on mobile or Google Fonts on web. Map to Georgia as device fallback.</div>
+</div>
+
+<div class="ty-card">
+  <div class="ty-label">Body — DM Sans (UI)</div>
+  <div style="font-size:15px;color:#1A1A1A;line-height:1.7">The AI reads 14 palm lines, 7 mounts, and 8 rare markings — synthesised with your numerology and Vedic birth chart into one unified reading.</div>
+  <div style="font-size:12px;color:#666666;margin-top:5px">Secondary text at 13px in Muted Gray #666666</div>
+  <div class="ty-meta">Used for: all UI labels, body copy, table content, button text. Weights: 400 regular, 500 medium only. Never use 600 or 700.</div>
+</div>
+
+<div class="ty-card">
+  <div class="ty-label">Mono — JetBrains Mono (code)</div>
+  <div style="font-size:12px;color:#1A1A1A;font-family:monospace;background:#F4F0E5;padding:8px 11px;border-radius:6px;line-height:1.75">const color = Colors.primary; <span style="color:#666">//</span><span style="color:#0F6E56"> #0D3B2E</span><br>const tier: SubscriptionTier = 'oracle';</div>
+  <div class="ty-meta">Used for: code blocks, hex value displays, API documentation, developer references.</div>
+</div>
+</div>
+
+<div class="sec">
+<div class="lbl">Type scale <div class="lbl-line"></div></div>
+<div style="border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-lg);overflow:hidden">
+<table style="width:100%;border-collapse:collapse;table-layout:fixed">
+<thead><tr style="background:#0D3B2E">
+  <th style="padding:7px 10px;color:#fff;font-weight:500;font-size:11px;text-align:left;width:22%">Role</th>
+  <th style="padding:7px 10px;color:#fff;font-weight:500;font-size:11px;text-align:left;width:14%">Size</th>
+  <th style="padding:7px 10px;color:#fff;font-weight:500;font-size:11px;text-align:left;width:12%">Weight</th>
+  <th style="padding:7px 10px;color:#fff;font-weight:500;font-size:11px;text-align:left;width:20%">Color</th>
+  <th style="padding:7px 10px;color:#fff;font-weight:500;font-size:11px;text-align:left;width:32%">Font</th>
+</tr></thead>
+<tbody>
+<tr style="background:#F4F0E5"><td style="padding:6px 10px;border:0.5px solid #D4C9B0;font-size:11px;color:#1A1A1A">H1 — Cover</td><td style="padding:6px 10px;border:0.5px solid #D4C9B0;font-size:11px;font-family:monospace;color:#1A1A1A">96pt</td><td style="padding:6px 10px;border:0.5px solid #D4C9B0;font-size:11px;color:#1A1A1A">700</td><td style="padding:6px 10px;border:0.5px solid #D4C9B0;font-size:11px;font-family:monospace;color:#0D3B2E">#0D3B2E</td><td style="padding:6px 10px;border:0.5px solid #D4C9B0;font-size:11px;color:#1A1A1A">Cormorant Garamond</td></tr>
+<tr style="background:#F8F5EE"><td style="padding:6px 10px;border:0.5px solid #D4C9B0;font-size:11px;color:#1A1A1A">H1 — Section</td><td style="padding:6px 10px;border:0.5px solid #D4C9B0;font-size:11px;font-family:monospace;color:#1A1A1A">44pt / 32px</td><td style="padding:6px 10px;border:0.5px solid #D4C9B0;font-size:11px;color:#1A1A1A">700</td><td style="padding:6px 10px;border:0.5px solid #D4C9B0;font-size:11px;font-family:monospace;color:#0D3B2E">#0D3B2E</td><td style="padding:6px 10px;border:0.5px solid #D4C9B0;font-size:11px;color:#1A1A1A">Cormorant Garamond</td></tr>
+<tr style="background:#F4F0E5"><td style="padding:6px 10px;border:0.5px solid #D4C9B0;font-size:11px;color:#1A1A1A">H2 — Section</td><td style="padding:6px 10px;border:0.5px solid #D4C9B0;font-size:11px;font-family:monospace;color:#1A1A1A">32pt / 22px</td><td style="padding:6px 10px;border:0.5px solid #D4C9B0;font-size:11px;color:#1A1A1A">700</td><td style="padding:6px 10px;border:0.5px solid #D4C9B0;font-size:11px;font-family:monospace;color:#0D3B2E">#0D3B2E</td><td style="padding:6px 10px;border:0.5px solid #D4C9B0;font-size:11px;color:#1A1A1A">Cormorant Garamond</td></tr>
+<tr style="background:#F8F5EE"><td style="padding:6px 10px;border:0.5px solid #D4C9B0;font-size:11px;color:#1A1A1A">H3 — Subsection</td><td style="padding:6px 10px;border:0.5px solid #D4C9B0;font-size:11px;font-family:monospace;color:#1A1A1A">26pt / 18px</td><td style="padding:6px 10px;border:0.5px solid #D4C9B0;font-size:11px;color:#1A1A1A">700</td><td style="padding:6px 10px;border:0.5px solid #D4C9B0;font-size:11px;font-family:monospace;color:#B8935A">#B8935A</td><td style="padding:6px 10px;border:0.5px solid #D4C9B0;font-size:11px;color:#1A1A1A">Cormorant Garamond</td></tr>
+<tr style="background:#F4F0E5"><td style="padding:6px 10px;border:0.5px solid #D4C9B0;font-size:11px;color:#1A1A1A">Body</td><td style="padding:6px 10px;border:0.5px solid #D4C9B0;font-size:11px;font-family:monospace;color:#1A1A1A">22pt / 16px</td><td style="padding:6px 10px;border:0.5px solid #D4C9B0;font-size:11px;color:#1A1A1A">400</td><td style="padding:6px 10px;border:0.5px solid #D4C9B0;font-size:11px;font-family:monospace;color:#1A1A1A">#1A1A1A</td><td style="padding:6px 10px;border:0.5px solid #D4C9B0;font-size:11px;color:#1A1A1A">DM Sans</td></tr>
+<tr style="background:#F8F5EE"><td style="padding:6px 10px;border:0.5px solid #D4C9B0;font-size:11px;color:#1A1A1A">Table cell</td><td style="padding:6px 10px;border:0.5px solid #D4C9B0;font-size:11px;font-family:monospace;color:#1A1A1A">20pt / 14px</td><td style="padding:6px 10px;border:0.5px solid #D4C9B0;font-size:11px;color:#1A1A1A">400</td><td style="padding:6px 10px;border:0.5px solid #D4C9B0;font-size:11px;font-family:monospace;color:#1A1A1A">#1A1A1A</td><td style="padding:6px 10px;border:0.5px solid #D4C9B0;font-size:11px;color:#1A1A1A">DM Sans (Calibri in doc)</td></tr>
+<tr style="background:#F4F0E5"><td style="padding:6px 10px;border:0.5px solid #D4C9B0;font-size:11px;color:#1A1A1A">Caption / footer</td><td style="padding:6px 10px;border:0.5px solid #D4C9B0;font-size:11px;font-family:monospace;color:#1A1A1A">16pt / 12px</td><td style="padding:6px 10px;border:0.5px solid #D4C9B0;font-size:11px;color:#1A1A1A">400 italic</td><td style="padding:6px 10px;border:0.5px solid #D4C9B0;font-size:11px;font-family:monospace;color:#666666">#666666</td><td style="padding:6px 10px;border:0.5px solid #D4C9B0;font-size:11px;color:#1A1A1A">DM Sans</td></tr>
+<tr style="background:#F8F5EE"><td style="padding:6px 10px;border:0.5px solid #D4C9B0;font-size:11px;color:#1A1A1A">Code / mono</td><td style="padding:6px 10px;border:0.5px solid #D4C9B0;font-size:11px;font-family:monospace;color:#1A1A1A">18pt / 13px</td><td style="padding:6px 10px;border:0.5px solid #D4C9B0;font-size:11px;color:#1A1A1A">400</td><td style="padding:6px 10px;border:0.5px solid #D4C9B0;font-size:11px;font-family:monospace;color:#1A1A1A">#1A1A1A</td><td style="padding:6px 10px;border:0.5px solid #D4C9B0;font-size:11px;color:#1A1A1A">JetBrains Mono</td></tr>
+</tbody>
+</table>
+</div>
+</div>
+
+<div class="sec">
+<div class="lbl">Implementation code <div class="lbl-line"></div></div>
+<div class="tabs">
+  <button class="tab act" onclick="sw('tailwind',this)">tailwind.config.js</button>
+  <button class="tab" onclick="sw('css',this)">CSS variables</button>
+  <button class="tab" onclick="sw('rn',this)">React Native tokens</button>
+</div>
+
+<div class="pane act" id="pt">
+<div class="code"><span class="cmt">// packages/config/tailwind/index.js</span>
+<span class="cmt">// Shared by NativeWind (mobile) + Tailwind CSS (web)</span>
+module.exports = {
+  theme: {
+    extend: {
+      colors: {
+        <span class="cmt">// ── Core Brand ─────────────────────────────</span>
+        primary:      '#0D3B2E',  <span class="cmt">// Forest green — H1/H2, headers, CTAs</span>
+        gold:         '#B8935A',  <span class="cmt">// Warm gold — H3, accents, ✦ glyph</span>
+        cream:        '#F8F5EE',  <span class="cmt">// App background + card surfaces</span>
+        'cream-alt':  '#F4F0E5',  <span class="cmt">// Alt table rows + secondary surfaces</span>
+        charcoal:     '#1A1A1A',  <span class="cmt">// Primary body text</span>
+        muted:        '#666666',  <span class="cmt">// Captions, footers, secondary labels</span>
+        surface:      '#FFFFFF',  <span class="cmt">// Modal surfaces</span>
+        background:   '#F8F5EE',  <span class="cmt">// Semantic alias for cream</span>
+
+        <span class="cmt">// ── Borders ────────────────────────────────</span>
+        border:          '#D4C9B0', <span class="cmt">// Table cells, card borders, dividers</span>
+        'border-gold':   '#B8935A', <span class="cmt">// Callout + emphasis borders</span>
+        'border-strong': '#0F6E56', <span class="cmt">// Section card borders</span>
+
+        <span class="cmt">// ── Supporting Greens ──────────────────────</span>
+        'green-mid':   '#0F6E56',  <span class="cmt">// Diagram card borders</span>
+        'green-sage':  '#4A7C59',  <span class="cmt">// Success text + positive indicators</span>
+
+        <span class="cmt">// ── Status Text ────────────────────────────</span>
+        success: '#4A7C59',
+        warning: '#B8935A',  <span class="cmt">// Reuses warm gold</span>
+        error:   '#B85450',
+        info:    '#185FA5',
+
+        <span class="cmt">// ── Status Background Tints ────────────────</span>
+        'tint-gold':  '#F5EBD8',  <span class="cmt">// Important callouts</span>
+        'tint-green': '#E8F0E8',  <span class="cmt">// Success callouts</span>
+        'tint-red':   '#F5E5E5',  <span class="cmt">// Warning/danger callouts</span>
+        'tint-blue':  '#E5EEF5',  <span class="cmt">// Info callouts</span>
+
+        <span class="cmt">// ── Subscription Tiers ─────────────────────</span>
+        'tier-mystic': '#B8935A',  <span class="cmt">// $4.99/wk — reuses warm gold</span>
+        'tier-oracle': '#0D3B2E',  <span class="cmt">// $9.99/mo — reuses forest green</span>
+        'tier-sage':   '#7B5EA7',  <span class="cmt">// $19.99/mo — exclusive purple</span>
+      },
+      fontFamily: {
+        display: ['Cormorant Garamond', 'serif'],
+        body:    ['DM Sans', 'sans-serif'],
+        mono:    ['JetBrains Mono', 'monospace'],
+      },
+      borderRadius: { card: '16px' },
+    },
+  },
+};</div>
+</div>
+
+<div class="pane" id="pc">
+<div class="code"><span class="cmt">/* apps/web/app/globals.css */</span>
+:root {
+  <span class="cmt">/* ── Core Brand ──────────────────────────── */</span>
+  --color-primary:       #0D3B2E;
+  --color-gold:          #B8935A;
+  --color-cream:         #F8F5EE;
+  --color-cream-alt:     #F4F0E5;
+  --color-surface:       #FFFFFF;
+
+  <span class="cmt">/* ── Text ────────────────────────────────── */</span>
+  --color-text-body:     #1A1A1A;
+  --color-text-muted:    #666666;
+  --color-text-on-dark:  #FFFFFF;
+
+  <span class="cmt">/* ── Borders ─────────────────────────────── */</span>
+  --color-border:        #D4C9B0;
+  --color-border-gold:   #B8935A;
+  --color-border-strong: #0F6E56;
+
+  <span class="cmt">/* ── Status Text ─────────────────────────── */</span>
+  --color-success:       #4A7C59;
+  --color-warning:       #B8935A;
+  --color-error:         #B85450;
+  --color-info:          #185FA5;
+
+  <span class="cmt">/* ── Status Backgrounds ──────────────────── */</span>
+  --color-tint-gold:     #F5EBD8;
+  --color-tint-green:    #E8F0E8;
+  --color-tint-red:      #F5E5E5;
+  --color-tint-blue:     #E5EEF5;
+
+  <span class="cmt">/* ── Tier Accents ────────────────────────── */</span>
+  --color-tier-mystic:   #B8935A;
+  --color-tier-oracle:   #0D3B2E;
+  --color-tier-sage:     #7B5EA7;
+
+  <span class="cmt">/* ── Typography ──────────────────────────── */</span>
+  --font-display: 'Cormorant Garamond', Georgia, serif;
+  --font-body:    'DM Sans', system-ui, sans-serif;
+  --font-mono:    'JetBrains Mono', 'Fira Code', monospace;
+
+  <span class="cmt">/* ── Spacing ─────────────────────────────── */</span>
+  --space-xs: 4px;  --space-sm:  8px;
+  --space-md: 12px; --space-lg: 16px;
+  --space-xl: 24px; --space-xxl: 32px;
+
+  <span class="cmt">/* ── Radius ──────────────────────────────── */</span>
+  --radius-sm: 8px; --radius-md: 12px;
+  --radius-lg: 16px; --radius-pill: 999px;
+}
+
+<span class="cmt">/* Google Fonts import */</span>
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,700&family=DM+Sans:wght@400;500&family=JetBrains+Mono:wght@400&display=swap');</div>
+</div>
+
+<div class="pane" id="pr">
+<div class="code"><span class="cmt">// packages/ui/tokens.ts</span>
+<span class="cmt">// Import everywhere — never hardcode hex values in components</span>
+
+export const Colors = {
+  <span class="cmt">// ── Core Brand ────────────────────────────</span>
+  primary:      '#0D3B2E',
+  gold:         '#B8935A',
+  cream:        '#F8F5EE',
+  creamAlt:     '#F4F0E5',
+  charcoal:     '#1A1A1A',
+  muted:        '#666666',
+  surface:      '#FFFFFF',
+  white:        '#FFFFFF',
+
+  <span class="cmt">// ── Borders ──────────────────────────────</span>
+  border:         '#D4C9B0',
+  borderGold:     '#B8935A',
+  borderStrong:   '#0F6E56',
+
+  <span class="cmt">// ── Supporting ───────────────────────────</span>
+  greenMid:     '#0F6E56',
+  greenSage:    '#4A7C59',
+
+  <span class="cmt">// ── Status Text ──────────────────────────</span>
+  success:      '#4A7C59',
+  warning:      '#B8935A',
+  error:        '#B85450',
+  info:         '#185FA5',
+
+  <span class="cmt">// ── Status Backgrounds ───────────────────</span>
+  tintGold:     '#F5EBD8',
+  tintGreen:    '#E8F0E8',
+  tintRed:      '#F5E5E5',
+  tintBlue:     '#E5EEF5',
+
+  <span class="cmt">// ── Subscription Tiers ───────────────────</span>
+  tierMystic:   '#B8935A',
+  tierOracle:   '#0D3B2E',
+  tierSage:     '#7B5EA7',
+} as const;
+
+export type ColorKey = keyof typeof Colors;
+
+export const Typography = {
+  display:      'CormorantGaramond-Regular',
+  displayBold:  'CormorantGaramond-Bold',
+  displayItal:  'CormorantGaramond-Italic',
+  body:         'DMSans-Regular',
+  bodyMedium:   'DMSans-Medium',
+  mono:         'JetBrainsMono-Regular',
+} as const;
+
+export const FontSize = {
+  xs: 11, sm: 13, md: 16,
+  lg: 20, xl: 24, xxl: 32, h1: 40,
+} as const;
+
+export const Spacing = {
+  xs: 4, sm: 8,  md: 12,
+  lg: 16, xl: 24, xxl: 32,
+} as const;
+
+export const BorderRadius = {
+  sm: 8, md: 12, lg: 16, card: 16, pill: 999,
+} as const;
+
+export const Shadows = {
+  card: {
+    shadowColor: Colors.primary,
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.06,
+    shadowRadius: 8,
+    elevation: 2,
+  },
+} as const;
+
+<span class="cmt">// Usage: import { Colors, Typography } from '@hastara/ui/tokens';</span>
+<span class="cmt">// &lt;View style={{ backgroundColor: Colors.cream }}&gt;</span>
+<span class="cmt">// &lt;Text style={{ color: Colors.primary, fontFamily: Typography.displayBold }}&gt;</span></div>
+</div>
+
+</div>
+
+<div style="font-size:10px;color:var(--color-text-tertiary);text-align:center;padding-top:4px">
+  Colors extracted directly from <code style="font-size:10px">SRS-HASTARA-001</code> and <code style="font-size:10px">TDD-HASTARA-001</code> build scripts · Tap any swatch to copy hex
+</div>
+
+</div>
+
+<script>
+function sw(id, btn) {
+  ['pt','pc','pr'].forEach(p => {
+    const el = document.getElementById(p);
+    if(el) el.classList.remove('act');
+  });
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('act'));
+  const target = id === 'tailwind' ? 'pt' : id === 'css' ? 'pc' : 'pr';
+  const el = document.getElementById(target);
+  if(el) el.classList.add('act');
+  btn.classList.add('act');
+}
+
+function cp(hex, el) {
+  try {
+    navigator.clipboard.writeText(hex).then(() => {
+      const hexEl = el.querySelector('.sw-hex') || el.querySelector('.st-hex') || el.querySelector('.st-bot span:last-child');
+      if(hexEl) {
+        const o = hexEl.textContent;
+        hexEl.textContent = 'copied!';
+        hexEl.classList.add('ok');
+        setTimeout(() => { hexEl.textContent = o; hexEl.classList.remove('ok'); }, 1400);
+      }
+    });
+  } catch(e) {}
+}
+</script>

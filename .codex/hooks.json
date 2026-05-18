@@ -1,0 +1,46 @@
+{
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Edit|Write|MultiEdit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node 'D:\\PROFESSION\\AI\\AI Projects\\Hastara\\.codex\\hooks\\block-violations.mjs'"
+          }
+        ]
+      }
+    ],
+    "PostToolUse": [
+      {
+        "matcher": "Edit|Write|MultiEdit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node 'D:\\PROFESSION\\AI\\AI Projects\\Hastara\\.codex\\hooks\\typecheck-on-write.mjs'"
+          }
+        ]
+      }
+    ],
+    "SessionStart": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node 'D:\\PROFESSION\\AI\\AI Projects\\Hastara\\.codex\\hooks\\session-scope.mjs'"
+          }
+        ]
+      }
+    ],
+    "UserPromptSubmit": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node 'D:\\PROFESSION\\AI\\AI Projects\\Hastara\\.codex\\hooks\\inject-rules-reminder.mjs'"
+          }
+        ]
+      }
+    ]
+  }
+}
