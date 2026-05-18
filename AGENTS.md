@@ -1,4 +1,4 @@
-# AGENTS.md — Lyra Project Context
+# AGENTS.md — Hastara Project Context
 
 > This file is read automatically by Codex on every session. It contains the complete
 > technical context for the Hastara project. Never ask the engineer what stack, pattern, or
@@ -23,7 +23,7 @@
 
 ## 2. Project Overview
 
-**Lyra** is a multi-platform AI-powered palmistry, numerology, and astrology app.
+**Hastara** is a multi-platform AI-powered palmistry, numerology, and astrology app.
 
 - **iOS + Android**: React Native + Expo SDK 51 (Turborepo `apps/mobile/`)
 - **Web**: Next.js 15 App Router (Turborepo `apps/web/`)
@@ -34,6 +34,7 @@
 synthesised into one reading by GPT-5 Vision (feature extraction) + Codex Opus 4.7 (narrative).
 
 **Docs**:
+
 - `docs/SRS-HASTARA-001.docx` — requirements
 - `docs/TDD-HASTARA-001.docx` — architecture + data model
 - `docs/PROJ-HASTARA-001.docx` — product vision + market analysis
@@ -187,33 +188,33 @@ hastara/
 
 ## 4. Tech Stack — Exact Versions
 
-| Layer | Package | Version | Notes |
-|-------|---------|---------|-------|
-| Mobile framework | react-native | 0.74.x | Expo managed |
-| Mobile framework | expo | ~51.0.0 | SDK 51 |
-| Web framework | next | 15.0.x | App Router only |
-| Language | typescript | 5.4.x | strict: true everywhere |
-| Navigation (mobile) | expo-router | ~3.5.x | File-based |
-| Styling (mobile) | nativewind | 4.x | Tailwind for RN |
-| Styling (web) | tailwindcss | 3.4.x | |
-| Animation | react-native-reanimated | 3.x | |
-| Canvas | @shopify/react-native-skia | 1.x | Palm contour drawing |
-| Charts | victory-native | 40.x | Line + radar charts |
-| API protocol | @trpc/server + @trpc/client | 11.x | Not 10.x |
-| ORM | drizzle-orm | 0.30.x | Edge-compatible |
-| State (global) | zustand | 4.5.x | |
-| Server state | @tanstack/react-query | 5.x | |
-| Auth | @clerk/nextjs + @clerk/expo | latest | |
-| DB + Storage | @supabase/supabase-js | 2.x | |
-| Camera | expo-camera | ~15.0.x | |
-| Image edit | expo-image-manipulator | ~12.0.x | |
-| Notifications | expo-notifications | ~0.28.x | |
-| Payments (mobile) | react-native-purchases | 7.x | RevenueCat |
-| Payments (web) | stripe | 16.x | |
-| Share image | react-native-view-shot | 4.x | |
-| Audio | expo-av | ~14.0.x | TTS playback |
-| Analytics | posthog-react-native + posthog-js | latest | |
-| Error tracking | @sentry/react-native + @sentry/nextjs | latest | |
+| Layer               | Package                               | Version | Notes                   |
+| ------------------- | ------------------------------------- | ------- | ----------------------- |
+| Mobile framework    | react-native                          | 0.74.x  | Expo managed            |
+| Mobile framework    | expo                                  | ~51.0.0 | SDK 51                  |
+| Web framework       | next                                  | 15.0.x  | App Router only         |
+| Language            | typescript                            | 5.4.x   | strict: true everywhere |
+| Navigation (mobile) | expo-router                           | ~3.5.x  | File-based              |
+| Styling (mobile)    | nativewind                            | 4.x     | Tailwind for RN         |
+| Styling (web)       | tailwindcss                           | 3.4.x   |                         |
+| Animation           | react-native-reanimated               | 3.x     |                         |
+| Canvas              | @shopify/react-native-skia            | 1.x     | Palm contour drawing    |
+| Charts              | victory-native                        | 40.x    | Line + radar charts     |
+| API protocol        | @trpc/server + @trpc/client           | 11.x    | Not 10.x                |
+| ORM                 | drizzle-orm                           | 0.30.x  | Edge-compatible         |
+| State (global)      | zustand                               | 4.5.x   |                         |
+| Server state        | @tanstack/react-query                 | 5.x     |                         |
+| Auth                | @clerk/nextjs + @clerk/expo           | latest  |                         |
+| DB + Storage        | @supabase/supabase-js                 | 2.x     |                         |
+| Camera              | expo-camera                           | ~15.0.x |                         |
+| Image edit          | expo-image-manipulator                | ~12.0.x |                         |
+| Notifications       | expo-notifications                    | ~0.28.x |                         |
+| Payments (mobile)   | react-native-purchases                | 7.x     | RevenueCat              |
+| Payments (web)      | stripe                                | 16.x    |                         |
+| Share image         | react-native-view-shot                | 4.x     |                         |
+| Audio               | expo-av                               | ~14.0.x | TTS playback            |
+| Analytics           | posthog-react-native + posthog-js     | latest  |                         |
+| Error tracking      | @sentry/react-native + @sentry/nextjs | latest  |                         |
 
 ---
 
@@ -226,13 +227,7 @@ hastara/
 // ─── Primitives ───────────────────────────────────────────────────────────────
 
 export type SubscriptionTier = 'free' | 'mystic' | 'oracle' | 'sage';
-export type ReadingMode =
-  | 'standard'
-  | 'love'
-  | 'career'
-  | 'health'
-  | 'spiritual'
-  | 'crystal_ball';
+export type ReadingMode = 'standard' | 'love' | 'career' | 'health' | 'spiritual' | 'crystal_ball';
 export type Hand = 'left' | 'right' | 'both';
 export type HandShape = 'earth' | 'air' | 'water' | 'fire';
 export type AstrologySystem = 'western' | 'vedic';
@@ -240,8 +235,14 @@ export type LinePrecision = 'short' | 'medium' | 'long';
 export type Prominence = 1 | 2 | 3 | 4 | 5;
 export type ImageQuality = 'good' | 'acceptable' | 'poor';
 export type MoonPhaseName =
-  | 'new_moon' | 'waxing_crescent' | 'first_quarter' | 'waxing_gibbous'
-  | 'full_moon' | 'waning_gibbous' | 'last_quarter' | 'waning_crescent';
+  | 'new_moon'
+  | 'waxing_crescent'
+  | 'first_quarter'
+  | 'waxing_gibbous'
+  | 'full_moon'
+  | 'waning_gibbous'
+  | 'last_quarter'
+  | 'waning_crescent';
 
 // ─── Vision JSON (returned by GPT-5 Vision) ───────────────────────────────────
 
@@ -319,20 +320,20 @@ export interface BirthLocation {
   city: string;
   country: string;
   countryCode: string; // ISO 3166-1 alpha-2
-  timezone: string;    // IANA tz name
+  timezone: string; // IANA tz name
 }
 
 export interface User {
-  clerkUserId: string;          // PK — matches Clerk user ID
+  clerkUserId: string; // PK — matches Clerk user ID
   email: string;
   name: string;
-  locale: string;               // BCP47 e.g. 'en', 'hi', 'ta'
-  dob: string;                  // ISO 8601 date 'YYYY-MM-DD'
-  birthTime?: string;           // 'HH:MM:SS' — optional
+  locale: string; // BCP47 e.g. 'en', 'hi', 'ta'
+  dob: string; // ISO 8601 date 'YYYY-MM-DD'
+  birthTime?: string; // 'HH:MM:SS' — optional
   birthLocation: BirthLocation;
   dominantHand: 'left' | 'right';
-  zodiacSign: string;           // Computed at signup
-  nakshatra?: string;           // Requires birthTime
+  zodiacSign: string; // Computed at signup
+  nakshatra?: string; // Requires birthTime
   lifePathNumber: number;
   expressionNumber: number;
   soulUrgeNumber: number;
@@ -342,10 +343,10 @@ export interface User {
   totalReadings: number;
   xpPoints: number;
   badges: BadgeId[];
-  notificationTime: string;     // 'HH:MM:SS'
+  notificationTime: string; // 'HH:MM:SS'
   notificationsEnabled: boolean;
   region: 'mumbai' | 'frankfurt' | 'us-east';
-  createdAt: string;            // ISO 8601 datetime
+  createdAt: string; // ISO 8601 datetime
   lastActiveAt: string;
 }
 
@@ -353,13 +354,13 @@ export interface User {
 
 export type BadgeId =
   | 'first_scan'
-  | 'mystic_apprentice'   // 7-day streak
-  | 'cosmic_seeker'       // 30-day streak
-  | 'oracle_master'       // 90-day streak
-  | 'double_vision'       // compatibility reading
-  | 'crystal_ball'        // 10 total readings
-  | 'star_sharer'         // 5 shared reading cards
-  | 'numerologist';       // birth chart completed
+  | 'mystic_apprentice' // 7-day streak
+  | 'cosmic_seeker' // 30-day streak
+  | 'oracle_master' // 90-day streak
+  | 'double_vision' // compatibility reading
+  | 'crystal_ball' // 10 total readings
+  | 'star_sharer' // 5 shared reading cards
+  | 'numerologist'; // birth chart completed
 
 // ─── Reading ──────────────────────────────────────────────────────────────────
 
@@ -372,7 +373,7 @@ export interface Reading {
   palmImageUrl: string;
   rawVisionJson: VisionJSON;
   narrativeMarkdown: string;
-  luckScore: number;       // 0–100
+  luckScore: number; // 0–100
   dominantTrait: string;
   audioUrl?: string;
   infographicUrl?: string;
@@ -395,33 +396,33 @@ export interface ReadingListItem {
 
 export interface DailyOracle {
   userId: string;
-  date: string;           // 'YYYY-MM-DD'
+  date: string; // 'YYYY-MM-DD'
   oracleText: string;
   tarotCard: TarotCard;
   moonPhase: MoonPhase;
   luckScore: number;
   luckyColor: string;
-  luckyNumber: number;    // 1–9
-  mantra?: string;        // Sage tier only
-  mudra?: string;         // Sage tier only
+  luckyNumber: number; // 1–9
+  mantra?: string; // Sage tier only
+  mudra?: string; // Sage tier only
   generatedAt: string;
 }
 
 export interface TarotCard {
-  id: number;             // 0–77
+  id: number; // 0–77
   name: string;
   arcana: 'major' | 'minor';
   suit?: 'wands' | 'cups' | 'swords' | 'pentacles';
   reversed: boolean;
-  svgPath: string;        // public asset path
+  svgPath: string; // public asset path
   interpretation: string; // AI-generated, personalised
 }
 
 export interface MoonPhase {
   phase: MoonPhaseName;
-  illumination: number;   // 0.0–1.0
+  illumination: number; // 0.0–1.0
   guidance: string;
-  isSpecial: boolean;     // new moon or full moon
+  isSpecial: boolean; // new moon or full moon
 }
 
 // ─── Birth Chart ───────────────────────────────────────────────────────────────
@@ -448,7 +449,7 @@ export interface Aspect {
 
 export interface NakshatraPosition {
   nakshatra: string;
-  pada: number;           // 1–4
+  pada: number; // 1–4
   lord: string;
   deity: string;
 }
@@ -476,7 +477,7 @@ export interface BirthChart {
 // ─── Compatibility ─────────────────────────────────────────────────────────────
 
 export interface CompatibilityDimension {
-  score: number;          // 0–100
+  score: number; // 0–100
   description: string;
 }
 
@@ -561,7 +562,7 @@ export interface SubscriptionStore {
   setTier: (tier: SubscriptionTier) => void;
   setReadingsThisMonth: (count: number) => void;
   // Gating helpers — use these everywhere, never inline tier checks
-  canScan: () => boolean;               // has readings remaining
+  canScan: () => boolean; // has readings remaining
   canAccessMode: (mode: ReadingMode) => boolean;
   canAccessFeature: (feature: Feature) => boolean;
 }
@@ -588,7 +589,7 @@ export interface ReadingStore {
   currentReading: Reading | null;
   streamingText: string;
   isGenerating: boolean;
-  progress: number;         // 0–100, for UI progress bar
+  progress: number; // 0–100, for UI progress bar
   setCurrentReading: (reading: Reading | null) => void;
   appendStreamingText: (chunk: string) => void;
   clearStreamingText: () => void;
@@ -602,6 +603,7 @@ export interface ReadingStore {
 ## 6. Naming Conventions
 
 ### Files
+
 - `PascalCase.tsx` — React components
 - `camelCase.ts` — utilities, hooks, stores
 - `kebab-case/` — directories
@@ -613,6 +615,7 @@ export interface ReadingStore {
 - `*.service.ts` — Edge Function business logic
 
 ### Variables / Functions
+
 ```typescript
 // ✅ Correct
 const clerkUserId = 'user_abc';
@@ -627,26 +630,28 @@ const getData = ...;   // too generic
 ```
 
 ### Components
+
 ```typescript
 // ✅ Correct: PascalCase, descriptive, ends in what it is
 export function ReadingResultCard({ reading }: ReadingResultCardProps) {}
 export function PalmCameraOverlay({ onCapture }: PalmCameraOverlayProps) {}
 
 // ❌ Wrong
-export function Card({}) {}       // too generic
+export function Card({}) {} // too generic
 export function readingCard({}) {} // lowercase
 ```
 
 ### tRPC procedures
+
 ```typescript
 // Pattern: router.action — verb is the action
-reading.create
-reading.list
-reading.byId
-reading.delete
-dailyOracle.today
-profile.update
-subscription.getCurrent
+reading.create;
+reading.list;
+reading.byId;
+reading.delete;
+dailyOracle.today;
+profile.update;
+subscription.getCurrent;
 ```
 
 ---
@@ -762,6 +767,7 @@ EXPO_PUBLIC_API_URL=https://api.hastara.app
 ## 8. Authentication Patterns
 
 ### tRPC middleware (packages/api/middleware/auth.middleware.ts)
+
 ```typescript
 import { TRPCError } from '@trpc/server';
 import { middleware, publicProcedure } from '../trpc';
@@ -794,17 +800,19 @@ export const requireTier = (minTier: SubscriptionTier) =>
 ```
 
 ### Mobile — accessing the current user
+
 ```typescript
 // Always read from Zustand, not from Clerk directly
 import { useAuthStore } from '@/store/auth.store';
 
 function MyComponent() {
-  const user = useAuthStore(s => s.user);
+  const user = useAuthStore((s) => s.user);
   // ...
 }
 ```
 
 ### Web — server-side auth
+
 ```typescript
 // app/(app)/dashboard/page.tsx
 import { auth } from '@clerk/nextjs/server';
@@ -822,6 +830,7 @@ export default async function DashboardPage() {
 ## 9. tRPC Procedure Pattern
 
 ### Standard template for a new procedure
+
 ```typescript
 // packages/api/routers/example.router.ts
 import { z } from 'zod';
@@ -831,10 +840,12 @@ import { TRPCError } from '@trpc/server';
 export const exampleRouter = router({
   // Query: fetching data
   list: protectedProcedure
-    .input(z.object({
-      cursor: z.string().uuid().optional(),
-      limit: z.number().min(1).max(50).default(20),
-    }))
+    .input(
+      z.object({
+        cursor: z.string().uuid().optional(),
+        limit: z.number().min(1).max(50).default(20),
+      }),
+    )
     .query(async ({ ctx, input }) => {
       // ctx.user is always available in protectedProcedure
       // ctx.db is the Drizzle client
@@ -855,9 +866,11 @@ export const exampleRouter = router({
 
   // Mutation: changing state
   create: protectedProcedure
-    .input(z.object({
-      name: z.string().min(1).max(200),
-    }))
+    .input(
+      z.object({
+        name: z.string().min(1).max(200),
+      }),
+    )
     .mutation(async ({ ctx, input }) => {
       // Validate business rules
       if (someConditionFails) {
@@ -867,11 +880,14 @@ export const exampleRouter = router({
         });
       }
 
-      const result = await ctx.db.insert(someTable).values({
-        userId: ctx.user.clerkUserId,
-        name: input.name,
-        createdAt: new Date().toISOString(),
-      }).returning();
+      const result = await ctx.db
+        .insert(someTable)
+        .values({
+          userId: ctx.user.clerkUserId,
+          name: input.name,
+          createdAt: new Date().toISOString(),
+        })
+        .returning();
 
       return result[0];
     }),
@@ -1000,7 +1016,7 @@ import { Redis } from '@upstash/redis';
 
 const supabase = createClient(
   Deno.env.get('SUPABASE_URL')!,
-  Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!
+  Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!,
 );
 
 const ratelimit = new Ratelimit({
@@ -1013,7 +1029,10 @@ Deno.serve(async (req) => {
   const jwt = req.headers.get('Authorization')?.replace('Bearer ', '');
   if (!jwt) return new Response('Unauthorized', { status: 401 });
 
-  const { data: { user }, error: authError } = await supabase.auth.getUser(jwt);
+  const {
+    data: { user },
+    error: authError,
+  } = await supabase.auth.getUser(jwt);
   if (authError || !user) return new Response('Unauthorized', { status: 401 });
 
   // ── Rate limit ────────────────────────────────────────────────────────────
@@ -1039,6 +1058,7 @@ Deno.serve(async (req) => {
 ## 12. AI Prompt Library — All Prompts (Complete)
 
 ### 12.1 GPT-5 Vision — Palm Feature Extraction
+
 ```
 SYSTEM:
 You are an expert palmist with deep knowledge of Western chiromancy,
@@ -1059,6 +1079,7 @@ CONSTRAINTS — never violate these:
 ```
 
 ### 12.2 Codex Opus 4.7 — Standard Reading Synthesis
+
 ```
 SYSTEM:
 You are a master palmist, numerologist, and Vedic astrologer with 30 years
@@ -1125,6 +1146,7 @@ ABSOLUTE CONSTRAINTS:
 ```
 
 ### 12.3 Codex — Love & Relationships Mode
+
 ```
 [Same system header as 12.2]
 
@@ -1140,6 +1162,7 @@ deeply loved, and what is one thing that may be holding them back?"
 ```
 
 ### 12.4 Codex — Career & Wealth Mode
+
 ```
 [Same system header as 12.2]
 
@@ -1156,6 +1179,7 @@ asset, and what is the one internal obstacle they must overcome?"
 ```
 
 ### 12.5 Codex — Health & Vitality Mode
+
 ```
 [Same system header as 12.2]
 
@@ -1176,6 +1200,7 @@ professional. Use "energy patterns" and "vitality indicators", never "symptoms".
 ```
 
 ### 12.6 Codex — Spiritual Path Mode
+
 ```
 [Same system header as 12.2]
 
@@ -1192,10 +1217,11 @@ dharma, and what is the practice or discipline most aligned with their path?"
 ```
 
 ### 12.7 Codex — Crystal Ball Mode (unlocked at 10 readings or Sage)
+
 ```
 [Same system header as 12.2]
 
-CONTEXT: This user has completed {{totalReadings}} readings with Lyra.
+CONTEXT: This user has completed {{totalReadings}} readings with Hastara.
 You have deep familiarity with their palm signature. This is an advanced
 narrative reading styled as a mystical vision rather than a structured report.
 
@@ -1212,6 +1238,7 @@ but still grounded. End with a one-sentence oracle in italics.
 ```
 
 ### 12.8 Oracle Generation Prompt (runs in overnight batch cron)
+
 ```
 SYSTEM:
 You are a mystical guide generating a personalised daily oracle message.
@@ -1238,6 +1265,7 @@ Return only the oracle text. No quotes, no preamble.
 ```
 
 ### 12.9 Compatibility Synthesis Prompt
+
 ```
 SYSTEM:
 You are an expert in palmistry synastry and relationship compatibility
@@ -1281,31 +1309,31 @@ Frame everything as tendencies and potentials.
 
 export const TIER_FEATURES: Record<Feature, SubscriptionTier[]> = {
   // Free + all paid tiers
-  advanced_analysis:     ['oracle', 'sage'],
-  voice_reading:         ['oracle', 'sage'],
-  rare_markings:         ['oracle', 'sage'],
-  birth_chart:           ['mystic', 'oracle', 'sage'],
-  triple_convergence:    ['oracle', 'sage'],
-  bilateral_comparison:  ['mystic', 'oracle', 'sage'],
-  future_self_image:     ['sage'],
-  past_life_image:       ['sage'],
-  soul_mandala:          ['sage'],
-  mantra_mudra:          ['sage'],
-  karma_score:           ['sage'],
-  lucky_days_calendar:   ['oracle', 'sage'],
-  chaldean_numerology:   ['mystic', 'oracle', 'sage'],
-  lo_shu_grid:           ['oracle', 'sage'],
-  crystal_ball_mode:     ['sage'],   // or earned via 10 readings
-  astrologer_credit:     ['oracle', 'sage'],
+  advanced_analysis: ['oracle', 'sage'],
+  voice_reading: ['oracle', 'sage'],
+  rare_markings: ['oracle', 'sage'],
+  birth_chart: ['mystic', 'oracle', 'sage'],
+  triple_convergence: ['oracle', 'sage'],
+  bilateral_comparison: ['mystic', 'oracle', 'sage'],
+  future_self_image: ['sage'],
+  past_life_image: ['sage'],
+  soul_mandala: ['sage'],
+  mantra_mudra: ['sage'],
+  karma_score: ['sage'],
+  lucky_days_calendar: ['oracle', 'sage'],
+  chaldean_numerology: ['mystic', 'oracle', 'sage'],
+  lo_shu_grid: ['oracle', 'sage'],
+  crystal_ball_mode: ['sage'], // or earned via 10 readings
+  astrologer_credit: ['oracle', 'sage'],
 };
 
 export const MODE_MIN_TIER: Record<ReadingMode, SubscriptionTier> = {
-  standard:      'free',
-  love:          'free',
-  career:        'mystic',
-  health:        'mystic',
-  spiritual:     'oracle',
-  crystal_ball:  'sage',
+  standard: 'free',
+  love: 'free',
+  career: 'mystic',
+  health: 'mystic',
+  spiritual: 'oracle',
+  crystal_ball: 'sage',
 };
 
 export const FREE_READINGS_PER_MONTH = 3;
@@ -1323,26 +1351,26 @@ module.exports = {
     extend: {
       colors: {
         // Primary palette
-        primary:  '#0D3B2E',  // Forest green
-        gold:     '#B8935A',  // Warm gold
-        cream:    '#F8F5EE',  // Cream surface
-        charcoal: '#1A1A1A',  // Near-black text
+        primary: '#0D3B2E', // Forest green
+        gold: '#B8935A', // Warm gold
+        cream: '#F8F5EE', // Cream surface
+        charcoal: '#1A1A1A', // Near-black text
 
         // Semantic
         background: '#F8F5EE',
-        surface:    '#FFFFFF',
-        muted:      '#666666',
-        border:     '#D4C9B0',
+        surface: '#FFFFFF',
+        muted: '#666666',
+        border: '#D4C9B0',
 
         // Tier colours
         'tier-mystic': '#B8935A',
         'tier-oracle': '#0D3B2E',
-        'tier-sage':   '#7B5EA7',
+        'tier-sage': '#7B5EA7',
       },
       fontFamily: {
         display: ['Cormorant Garamond', 'serif'],
-        body:    ['DM Sans', 'sans-serif'],
-        mono:    ['JetBrains Mono', 'monospace'],
+        body: ['DM Sans', 'sans-serif'],
+        mono: ['JetBrains Mono', 'monospace'],
       },
       borderRadius: {
         card: '16px',
@@ -1353,15 +1381,16 @@ module.exports = {
 ```
 
 ### Usage in mobile (NativeWind)
+
 ```tsx
 // ✅ Use Tailwind classes via className
 <View className="bg-primary rounded-card p-4">
-  <Text className="font-display text-2xl text-cream">Lyra</Text>
-</View>
+  <Text className="font-display text-cream text-2xl">Hastara</Text>
+</View>;
 
 // ✅ Dynamic styles with cn() utility
 import { cn } from '@hastara/ui/utils';
-<View className={cn('rounded-card p-4', isPremium ? 'bg-gold' : 'bg-surface')} />
+<View className={cn('rounded-card p-4', isPremium ? 'bg-gold' : 'bg-surface')} />;
 
 // ❌ Never use StyleSheet.create() — use NativeWind
 ```
@@ -1432,7 +1461,7 @@ describe('reading.list', () => {
   it('returns only readings belonging to the current user', async () => {
     const caller = createTestCaller({ userId: 'user_test_123' });
     const result = await caller.reading.list({ limit: 10 });
-    expect(result.items.every(r => r.userId === 'user_test_123')).toBe(true);
+    expect(result.items.every((r) => r.userId === 'user_test_123')).toBe(true);
   });
 });
 ```
@@ -1523,30 +1552,32 @@ npm install some-package // use: pnpm add some-package --filter mobile
 
 ## 19. Key Architectural Decisions (ADRs)
 
-| Decision | Choice | Why |
-|----------|--------|-----|
-| API protocol | tRPC v11 | End-to-end type safety, no codegen step |
-| Mobile styling | NativeWind | Same Tailwind tokens as web |
-| ORM | Drizzle | Type-safe, Edge-compatible, no reflection |
-| Auth | Clerk | Apple Sign-In support, phone OTP, Indian market |
-| Mobile billing | RevenueCat | Cross-platform, webhook-first architecture |
-| Vision AI | OpenAI GPT-5 | Best structured JSON output from images |
-| Synthesis AI | Codex Opus 4.7 | Best long-form narrative; tool-use support |
-| Image gen | FLUX.2 Pro | Best photorealism for portraits |
-| Voice | ElevenLabs v3 | 12-language coverage, lowest latency |
-| Package manager | pnpm | Workspace support, disk efficiency |
-| Monorepo | Turborepo | Shared cache, per-package pipelines |
+| Decision        | Choice         | Why                                             |
+| --------------- | -------------- | ----------------------------------------------- |
+| API protocol    | tRPC v11       | End-to-end type safety, no codegen step         |
+| Mobile styling  | NativeWind     | Same Tailwind tokens as web                     |
+| ORM             | Drizzle        | Type-safe, Edge-compatible, no reflection       |
+| Auth            | Clerk          | Apple Sign-In support, phone OTP, Indian market |
+| Mobile billing  | RevenueCat     | Cross-platform, webhook-first architecture      |
+| Vision AI       | OpenAI GPT-5   | Best structured JSON output from images         |
+| Synthesis AI    | Codex Opus 4.7 | Best long-form narrative; tool-use support      |
+| Image gen       | FLUX.2 Pro     | Best photorealism for portraits                 |
+| Voice           | ElevenLabs v3  | 12-language coverage, lowest latency            |
+| Package manager | pnpm           | Workspace support, disk efficiency              |
+| Monorepo        | Turborepo      | Shared cache, per-package pipelines             |
 
 ---
 
 ## 20. Dev Environment Tips
 
 ### Package Manager
+
 - **Always use pnpm** — never `npm` or `yarn`. All scripts assume pnpm workspaces.
 - Install all dependencies: `pnpm install` (from workspace root)
 - Add a package to a specific workspace: `pnpm add <pkg> --filter mobile`
 
 ### Starting Services
+
 ```bash
 # All workspaces in parallel (web + mobile bundler)
 pnpm dev
@@ -1565,14 +1596,16 @@ supabase functions serve    # Hot-reload all edge functions locally
 ```
 
 ### Key Local URLs
-| Service | URL |
-|---------|-----|
-| Next.js web | http://localhost:3000 |
+
+| Service         | URL                    |
+| --------------- | ---------------------- |
+| Next.js web     | http://localhost:3000  |
 | Supabase Studio | http://localhost:54323 |
-| Supabase API | http://localhost:54321 |
-| Expo DevTools | http://localhost:8081 |
+| Supabase API    | http://localhost:54321 |
+| Expo DevTools   | http://localhost:8081  |
 
 ### Environment Variables
+
 - Copy `.env.example` to `.env.local` at the workspace root
 - For mobile, also create `apps/mobile/.env.local` with `EXPO_PUBLIC_*` vars
 - All variable names are documented in §7 — never invent new names
@@ -1583,6 +1616,7 @@ supabase functions serve    # Hot-reload all edge functions locally
 ## 21. Testing Instructions
 
 ### Running Tests
+
 ```bash
 pnpm test                                   # All workspaces
 pnpm --filter core test                     # packages/core only
@@ -1592,16 +1626,19 @@ pnpm test -- --coverage                     # With coverage
 ```
 
 ### File Naming
+
 - Co-locate test files with source: `pythagorean.ts` → `pythagorean.test.ts`
 - Use descriptive names matching what is being tested
 - Always use camelCase + `.test.ts` suffix
 
 ### Required Imports
+
 ```typescript
 import { describe, it, expect, beforeEach, vi } from 'vitest';
 ```
 
 ### File Structure Template
+
 ```typescript
 /**
  * Tests for [module/feature name].
@@ -1628,6 +1665,7 @@ describe('functionUnderTest', () => {
 ```
 
 ### Test Best Practices
+
 1. **Arrange-Act-Assert**: structure every test with clear sections
 2. **Test isolation**: each test must be independent — no shared mutable state
 3. **Mock external I/O only**: don't mock your own modules; mock `fetch`, Supabase client, AI APIs
@@ -1635,13 +1673,15 @@ describe('functionUnderTest', () => {
 5. **Add tests for every change** — if you add/modify code, update or add a test
 
 ### Test Categories
-| Category | Location | Tool |
-|----------|----------|------|
-| Unit | `packages/core/**/*.test.ts` | Vitest |
-| tRPC integration | `packages/api/routers/*.test.ts` | Vitest + createTestCaller |
-| Component | `apps/mobile/**/__tests__/*.test.tsx` | Vitest + React Native Testing Library |
+
+| Category         | Location                              | Tool                                  |
+| ---------------- | ------------------------------------- | ------------------------------------- |
+| Unit             | `packages/core/**/*.test.ts`          | Vitest                                |
+| tRPC integration | `packages/api/routers/*.test.ts`      | Vitest + createTestCaller             |
+| Component        | `apps/mobile/**/__tests__/*.test.tsx` | Vitest + React Native Testing Library |
 
 ### Pre-Commit Checklist
+
 - [ ] `pnpm test` passes (all workspaces)
 - [ ] `pnpm typecheck` passes (zero type errors)
 - [ ] `pnpm lint` passes (no ESLint errors)
@@ -1653,6 +1693,7 @@ describe('functionUnderTest', () => {
 ## 22. PR Instructions
 
 ### PR Title Format
+
 ```
 [<workspace>] <Description>
 
@@ -1666,6 +1707,7 @@ Examples:
 ```
 
 ### Before Submitting
+
 1. Run `pnpm test` — all tests green
 2. Run `pnpm typecheck` — zero errors
 3. Run `pnpm lint` — zero errors
@@ -1673,6 +1715,7 @@ Examples:
 5. Confirm `pnpm --filter db migrate:dev` applied if schema changed
 
 ### PR Checklist
+
 - [ ] Tests pass and new tests added for changed code
 - [ ] TypeScript strict mode — zero `any`, zero `console.log`
 - [ ] No hardcoded environment variable values
@@ -1684,12 +1727,14 @@ Examples:
 ## 23. Common Tasks
 
 ### Adding a New tRPC Router
+
 1. Create `packages/api/routers/<name>.router.ts` — follow §9 template
 2. Export it from `packages/api/index.ts` and merge into `appRouter`
 3. Add corresponding tests in `packages/api/routers/<name>.router.test.ts`
 4. If the procedure requires a tier gate, use `requireTier()` from auth middleware
 
 ### Adding a New Mobile Screen
+
 1. Create `apps/mobile/app/<path>.tsx` — follow §10 template exactly
 2. Use `useAuthStore(s => s.user)` for the current user
 3. Use `useSubscriptionStore(s => s.canAccessFeature)` for feature gating
@@ -1697,6 +1742,7 @@ Examples:
 5. Add `<Stack.Screen options={{ headerShown: false }} />` at the top of the return
 
 ### Adding a New Edge Function (Service)
+
 1. Create `services/<name>-service/index.ts` — follow §11 template
 2. Register the function in `supabase/config.toml` if needed
 3. Test locally: `supabase functions serve <name>-service`
@@ -1704,11 +1750,13 @@ Examples:
 5. Set secrets: `supabase secrets set KEY=value` (not `.env`)
 
 ### Adding a Shared Type
+
 1. Edit `packages/core/types/index.ts` — this is the single source of truth
 2. Export the type — it will be available as `import type { X } from '@hastara/core/types'`
 3. Never define domain types in app-level files
 
 ### Adding a Drizzle Migration
+
 1. Edit `packages/db/schema.ts` to reflect the schema change
 2. Generate migration: `pnpm --filter db migrate:dev`
 3. Review the generated file in `packages/db/migrations/`
@@ -1719,31 +1767,37 @@ Examples:
 ## 24. Troubleshooting
 
 ### TypeScript Errors
+
 - Always run `pnpm typecheck` from the **workspace root** — per-package checks miss cross-package type issues
 - If a type from `@hastara/core/types` isn't resolving, check `packages/config/typescript/tsconfig.json` path mappings
 
 ### Expo / Metro Issues
+
 - Changes not reflecting: clear Metro cache with `npx expo start --clear`
 - Native module errors after adding a package: run `npx expo run:ios` or `npx expo run:android` (not just `expo start`)
 - `EXPO_PUBLIC_*` vars not available: ensure they are in `apps/mobile/.env.local`, not just root `.env.local`
 
 ### tRPC Procedure Not Found
+
 - Verify the router is exported and merged in `packages/api/index.ts`
 - Verify the client in `apps/mobile/lib/trpc.ts` or `apps/web` is importing `AppRouter` from the correct path
 
 ### Supabase RLS Blocking Queries
+
 - Ensure the request includes `Authorization: Bearer <jwt>` header
 - Check the RLS policy in `packages/db/schema.ts` for the relevant table
 - Test locally with `supabase db reset` to reapply all policies
 
 ### Edge Function 401 / 500
+
 - 401: `SUPABASE_SERVICE_ROLE_KEY` must be set as a Supabase secret, not just in `.env` — run `supabase secrets set SUPABASE_SERVICE_ROLE_KEY=<value>`
 - 500: check `supabase functions logs <name>` for the actual error
 
 ### pnpm Workspace Errors
+
 - Never run `npm install` — always `pnpm add <pkg> --filter <workspace>`
 - If lockfile is out of sync: `pnpm install` from workspace root (never `pnpm install --frozen-lockfile` during dev)
 
 ---
 
-*End of AGENTS.md — last updated May 2026*
+_End of AGENTS.md — last updated May 2026_

@@ -67,18 +67,18 @@ import { useAuthStore } from '@/store/auth.store';
 import { useSubscriptionStore } from '@/store/subscription.store';
 import { useReadingStore } from '@/store/reading.store';
 
-const user       = useAuthStore(s => s.user);
-const tier       = useSubscriptionStore(s => s.tier);
+const user = useAuthStore((s) => s.user);
+const tier = useSubscriptionStore((s) => s.tier);
 
 // Gate features via store helpers — never inline tier comparisons
-const canScan     = useSubscriptionStore(s => s.canScan());
-const canUseVoice = useSubscriptionStore(s => s.canAccessFeature('voice_reading'));
-const canUseMode  = useSubscriptionStore(s => s.canAccessMode('spiritual'));
+const canScan = useSubscriptionStore((s) => s.canScan());
+const canUseVoice = useSubscriptionStore((s) => s.canAccessFeature('voice_reading'));
+const canUseMode = useSubscriptionStore((s) => s.canAccessMode('spiritual'));
 
 // Reading progress (streaming)
-const isGenerating   = useReadingStore(s => s.isGenerating);
-const streamingText  = useReadingStore(s => s.streamingText);
-const progress       = useReadingStore(s => s.progress); // 0–100 for progress bar
+const isGenerating = useReadingStore((s) => s.isGenerating);
+const streamingText = useReadingStore((s) => s.streamingText);
+const progress = useReadingStore((s) => s.progress); // 0–100 for progress bar
 ```
 
 ---
@@ -111,12 +111,12 @@ borderRadius: { card: '16px' },
 ```tsx
 // ✅ Use Tailwind classes via className
 <View className="bg-primary rounded-card p-4">
-  <Text className="font-display text-2xl text-cream">Lyra</Text>
-</View>
+  <Text className="font-display text-cream text-2xl">Hastara</Text>
+</View>;
 
 // ✅ Dynamic styles with cn()
 import { cn } from '@hastara/ui/utils';
-<View className={cn('rounded-card p-4', isPremium ? 'bg-gold' : 'bg-surface')} />
+<View className={cn('rounded-card p-4', isPremium ? 'bg-gold' : 'bg-surface')} />;
 
 // ❌ Never use StyleSheet.create() — always use NativeWind
 ```
@@ -152,18 +152,18 @@ app/
 
 ## Key Libraries & Usage
 
-| Library | Version | Use |
-|---------|---------|-----|
-| `expo-camera` | ~15.0.x | Palm photo capture — wrapper in `lib/camera.ts` |
-| `expo-image-manipulator` | ~12.0.x | Crop + resize before upload |
-| `@shopify/react-native-skia` | 1.x | Palm contour overlay drawing |
-| `lib/mediapipe.ts` | — | Hand landmark validation before upload (reject non-palm images) |
-| `react-native-view-shot` | 4.x | Share card screenshot capture |
-| `expo-av` | ~14.0.x | TTS audio playback for voice readings |
-| `expo-notifications` | ~0.28.x | Push notifications — wrapper in `lib/notifications.ts` |
-| `react-native-purchases` | 7.x | RevenueCat billing — wrapper in `lib/revenuecat.ts` |
-| `react-native-reanimated` | 3.x | Animations (entry/exit, progress bars) |
-| `victory-native` | 40.x | Line charts (luck score history) + radar charts (compatibility) |
+| Library                      | Version | Use                                                             |
+| ---------------------------- | ------- | --------------------------------------------------------------- |
+| `expo-camera`                | ~15.0.x | Palm photo capture — wrapper in `lib/camera.ts`                 |
+| `expo-image-manipulator`     | ~12.0.x | Crop + resize before upload                                     |
+| `@shopify/react-native-skia` | 1.x     | Palm contour overlay drawing                                    |
+| `lib/mediapipe.ts`           | —       | Hand landmark validation before upload (reject non-palm images) |
+| `react-native-view-shot`     | 4.x     | Share card screenshot capture                                   |
+| `expo-av`                    | ~14.0.x | TTS audio playback for voice readings                           |
+| `expo-notifications`         | ~0.28.x | Push notifications — wrapper in `lib/notifications.ts`          |
+| `react-native-purchases`     | 7.x     | RevenueCat billing — wrapper in `lib/revenuecat.ts`             |
+| `react-native-reanimated`    | 3.x     | Animations (entry/exit, progress bars)                          |
+| `victory-native`             | 40.x    | Line charts (luck score history) + radar charts (compatibility) |
 
 ---
 

@@ -105,7 +105,7 @@ ${CONSTRAINTS}`;
 
 export const SYNTHESIS_CRYSTAL_BALL_PROMPT = `${SYSTEM_HEADER}
 
-CONTEXT: This user has completed multiple readings with Lyra.
+CONTEXT: This user has completed multiple readings with Hastara.
 You have deep familiarity with their palm signature. This is an advanced
 narrative reading styled as a mystical vision rather than a structured report.
 
